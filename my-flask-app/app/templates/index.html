@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Study Buddy</title>
+</head>
+<body>
+    <h1>Ask your Python Study Buddy</h1>
+    <form method="post">
+        <input type="text" name="question" placeholder="Enter your Python question" style="width:400px;" required>
+        <button type="submit">Ask</button>
+    </form>
+    {% if answer %}
+        <h2>Answer:</h2>
+        <pre>{{ answer }}</pre>
+    {% endif %}
+</body>
+</html>

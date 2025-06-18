@@ -10,9 +10,10 @@ from flask import Flask, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret_key'
+app.config['SECRET_KEY'] = os.urandom(32);
 
 class HelloForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=3)])
@@ -26,7 +27,20 @@ def hello():
         name = form.name.data
         email = form.email.data
         return f'Hello, {name} ({email})!'
-    return form.render_template()
+    from flask import render_template_string
+    return render_template_string('''
+        <form method="post">
+            {{ form.csrf_token }}
+            {{ form.name.label }} {{ form.name(size=20) }}<br>
+            {{ form.email.label }} {{ form.email(size=20) }}<br>
+            {{ form.submit() }}
+        </form>
+        {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+                <div style="color: red;">{{ error }}</div>
+            {% endfor %}
+        {% endfor %}
+    ''', form=form)
 
 @app.errorhandler(400)
 def bad_request(error):
