@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import openai
 import requests
 from PIL import Image
 import dotenv
@@ -9,12 +10,12 @@ dotenv.load_dotenv()
  
 client = OpenAI()
 
-
+# Set the OpenAI API key
 try:
     # Create an image by using the image generation API
     generation_response = client.images.generate(
         model="dall-e-3",
-        prompt='Bunny on horse, holding a lollipop, on a foggy meadow where it grows daffodils',    # Enter your prompt text here
+        prompt='Dog on horse, holding a lollipop, on a foggy meadow where it grows daffodils',    # Enter your prompt text here
         size='1024x1024',
         n=1
     )
@@ -26,7 +27,7 @@ try:
         os.mkdir(image_dir)
 
     # Initialize the image path (note the filetype should be png)
-    image_path = os.path.join(image_dir, 'generated-image.png')
+    image_path = os.path.join(image_dir, 'generated-image3.png')
 
     # Retrieve the generated image
     print(generation_response)
